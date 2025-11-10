@@ -15,7 +15,7 @@ st.markdown("Analisis Kemampuan **Computational Thinking** Peserta Didik SD Berd
 # =============================================================================
 @st.cache_data
 def load_data():
-    bebras = pd.read_csv("files/dashboard_bebras.csv")
+    bebras = pd.read_csv("dashboard_bebras.csv")
     return bebras
 
 bebras = load_data()
