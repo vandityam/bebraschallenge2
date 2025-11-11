@@ -141,7 +141,7 @@ else:
 # =============================================================================
 # 5️⃣ TABEL DATA
 # =============================================================================
-st.subheader("📋 Data Peserta")
+st.subheader("📋 Data Peserta (Top 10)")
 top10 = filtered.nlargest(10, 'Nilai')[['Nama', 'SekolahNama', 'SekolahKotaKabupaten', 'Nilai']]
 top10.index = range(1, len(top10) + 1)
 top10 = top10.rename(columns={'Nama': 'Nama', 'SekolahNama': 'Sekolah', 'SekolahKotaKabupaten': 'Kota/Kab', 'Nilai': 'Skor'})
