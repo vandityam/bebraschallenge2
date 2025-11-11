@@ -8,7 +8,7 @@ import plotly.express as px
 # =============================================================================
 st.set_page_config(page_title="Bebras CT Dashboard", layout="wide")
 st.title("Dashboard Bebras Challenge 2024")
-st.markdown("Analisis Kemampuan **Computational Thinking** Peserta Didik SD Berdasarkan Hasil Bebras Challenge 2024")
+st.markdown("Analisis Kemampuan **Computational Thinking** Peserta Didik SD SMP SMA Berdasarkan Hasil Bebras Challenge 2024")
 
 # =============================================================================
 # LOAD DATA
