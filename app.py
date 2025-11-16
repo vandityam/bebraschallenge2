@@ -7,8 +7,8 @@ import plotly.express as px
 # KONFIGURASI DASHBOARD
 # =============================================================================
 st.set_page_config(page_title="Bebras CT Dashboard", layout="wide")
-st.title("Dashboard Bebras Challenge 2024")
-st.markdown("Analisis Kemampuan **Computational Thinking** Peserta Didik SD SMP SMA Berdasarkan Hasil Bebras Challenge 2024")
+st.title("Dashboard Hasil Bebras Challenge 2024")
+st.markdown("Visualisasi kemampuan **Computational Thinking** siswa SD, SMP, dan SMA berdasarkan data hasil pengerjaan soal Bebras.")
 
 # =============================================================================
 # LOAD DATA
@@ -21,23 +21,94 @@ def load_data():
 bebras = load_data()
 
 # =============================================================================
+# MAPPING
+# =============================================================================
+mapping_kat = (
+    bebras[["Kategori", "Kelas"]]
+    .drop_duplicates()
+    .groupby("Kategori")["Kelas"]
+    .apply(list)
+    .to_dict()
+)
+
+mapping_prov = (
+    bebras[["Provinsi", "SekolahKotaKabupaten"]]
+    .drop_duplicates()
+    .groupby("Provinsi")["SekolahKotaKabupaten"]
+    .apply(list)
+    .to_dict()
+)
+
+# =============================================================================
 # SIDEBAR FILTER
 # =============================================================================
 st.sidebar.header("🔍 Filter Data")
 
-provinsi = st.sidebar.multiselect("Pilih Provinsi:", sorted(bebras["Provinsi"].dropna().unique()))
-kategori = st.sidebar.multiselect("Pilih Kategori:", sorted(bebras["Kategori"].dropna().unique()))
-kelas = st.sidebar.multiselect("Pilih Kelas:", sorted(bebras["Kelas"].dropna().unique()))
+# ---- Provinsi ----
+provinsi = st.sidebar.multiselect(
+    "Pilih Provinsi:",
+    sorted(bebras["Provinsi"].dropna().unique())
+)
 
+# ---- Kota/Kabupaten ----
+all_kota = sorted(bebras["SekolahKotaKabupaten"].dropna().unique())
+
+if provinsi:
+    allowed_kota = sorted({k for p in provinsi for k in mapping_prov.get(p, [])})
+
+    kota = st.sidebar.multiselect(
+        "Pilih Kota/Kabupaten:",
+        allowed_kota,
+        disabled=True
+    )
+else:
+    kota = st.sidebar.multiselect(
+        "Pilih Kota/Kabupaten:",
+        all_kota
+    )
+
+# ---- Kategori ----
+kategori = st.sidebar.multiselect(
+    "Pilih Kategori:",
+    sorted(bebras["Kategori"].dropna().unique())
+)
+
+# ---- Kelas ----
+all_kelas = sorted(bebras["Kelas"].dropna().unique())
+
+if kategori:
+    allowed_kelas = sorted({k for cat in kategori for k in mapping_kat.get(cat, [])})
+
+    kelas = st.sidebar.multiselect(
+        "Pilih Kelas (Mengikuti Kategori):",
+        allowed_kelas,
+        disabled=True
+    )
+else:
+    kelas = st.sidebar.multiselect(
+        "Pilih Kelas:",
+        all_kelas
+    )
+
+# =============================================================================
+# FILTER DATA
+# =============================================================================
 filtered = bebras.copy()
+
 if provinsi:
     filtered = filtered[filtered["Provinsi"].isin(provinsi)]
+
+if kota:
+    filtered = filtered[filtered["SekolahKotaKabupaten"].isin(kota)]
+
 if kategori:
     filtered = filtered[filtered["Kategori"].isin(kategori)]
+
 if kelas:
     filtered = filtered[filtered["Kelas"].isin(kelas)]
 
 st.sidebar.write(f"Total data: {len(filtered)} peserta")
+
 
 # =============================================================================
 # 1️⃣ STATISTIK RINGKAS
@@ -141,14 +212,14 @@ else:
 # =============================================================================
 # 5️⃣ TABEL DATA
 # =============================================================================
-st.subheader("📋 Data Peserta (Top 10)")
-top10 = filtered.nlargest(10, 'Nilai')[['Nama', 'SekolahNama', 'SekolahKotaKabupaten', 'Nilai']]
+st.subheader("🏆 Top 10 Peserta Dengan Nilai Tertinggi")
+top10 = filtered.nlargest(10, 'Nilai')[['Nama', 'Kelas', 'SekolahNama', 'SekolahKotaKabupaten', 'Nilai']]
 top10.index = range(1, len(top10) + 1)
-top10 = top10.rename(columns={'Nama': 'Nama', 'SekolahNama': 'Sekolah', 'SekolahKotaKabupaten': 'Kota/Kab', 'Nilai': 'Skor'})
-st.dataframe(top10.style.format({'Skor': '{:.2f}'}), use_container_width=True)
+top10 = top10.rename(columns={'Nama': 'Nama', 'Kelas' : 'Kelas', 'SekolahNama': 'Sekolah', 'SekolahKotaKabupaten': 'Kota/Kab', 'Nilai': 'Nilai'})
+st.dataframe(top10.style.format({'Nilai': '{:.2f}'}), use_container_width=True)
 col_d1, col_d2 = st.columns(2)
 with st.expander("📋 Tampilkan Seluruh Data"):
  st.dataframe(
-        filtered[['Nama', 'Kelas', 'JenisKelamin', 'SekolahKotaKabupaten', 'Provinsi', 'Nilai']],
+        filtered[['Nama', 'Kelas','SekolahNama', 'SekolahKotaKabupaten', 'Nilai']],
         use_container_width=True
     )
