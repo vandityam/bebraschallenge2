@@ -7,11 +7,6 @@ import plotly.express as px
 # KONFIGURASI DASHBOARD
 # =============================================================================
 st.set_page_config(page_title="Bebras CT Dashboard", layout="wide")
-
-
-with open("style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    
 st.title("Dashboard Hasil Bebras Challenge 2024")
 st.markdown(
     "Visualisasi kemampuan **Computational Thinking** siswa SD, SMP, dan SMA "
