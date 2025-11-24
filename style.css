@@ -1,0 +1,81 @@
+/* ====== IMPORT POPPINS FONT ====== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+html,
+body,
+[class*="css"] {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+/* ====== GLOBAL LAYOUT ====== */
+.main-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: -10px;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    padding: 10px 18px;
+    background: #f5f5f7;
+    border-radius: 16px;
+    color: #333;
+}
+
+.sidebar-title {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    color: #444 !important;
+}
+
+.small-info {
+    font-size: 14px;
+    color: #444;
+}
+
+/* ====== METRIC CARDS ====== */
+.stMetric {
+    padding: 18px !important;
+    border-radius: 18px !important;
+    background-color: #fafafa !important;
+    border: 1px solid #e5e5e5 !important;
+    box-shadow: 0px 2px 4px #00000010 !important;
+}
+
+/* ====== TABS SUPER SIMPLE ====== */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 16px;
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 4px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background-color: transparent !important;
+    padding: 8px 2px;
+    font-weight: 500;
+    color: #444;
+    border: none;
+    border-radius: 0;
+}
+
+.stTabs [data-baseweb="tab"]:hover {
+    color: #000;
+    border-bottom: 2px solid #d0d0d0;
+}
+
+.stTabs [aria-selected="true"] {
+    color: #000 !important;
+    font-weight: 600 !important;
+    background-color: transparent !important;
+}
