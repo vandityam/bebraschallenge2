@@ -23,7 +23,7 @@ st.markdown(
 # =============================================================================
 @st.cache_data
 def load_data():
-    return pd.read_csv("files/data_CT_siswa.csv", on_bad_lines='skip', sep=';')
+    return pd.read_csv("files/dashboard_bebras.csv", on_bad_lines='skip', sep=';')
 
 bebras = load_data()
 
