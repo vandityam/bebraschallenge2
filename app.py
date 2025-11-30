@@ -23,7 +23,7 @@ st.markdown(
 # =============================================================================
 @st.cache_data
 def load_data():
-    return pd.read_csv("files/dashboard_bebras(fixed).csv", sep=';')
+    return pd.read_csv("files/dashboard_bebras.csv")
 
 bebras = load_data()
 
